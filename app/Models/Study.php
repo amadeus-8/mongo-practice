@@ -6,5 +6,5 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Study extends Model
 {
-    protected $collection = 'studies'
+    protected $collection = 'studies';
 }
