@@ -206,6 +206,9 @@
                          if(response.data.success) {
                              this.setStudiesData(response.data);
                          }
+                         else {
+                             alert(response.data.message);
+                         }
                      })
                      .catch(error => {
                          alert(error);
