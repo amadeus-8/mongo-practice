@@ -27,6 +27,7 @@ Vue.component('Budget', require('./components/Budget.vue').default);
 Vue.component('Organization', require('./components/Organization.vue').default);
 Vue.component('School', require('./components/School.vue').default);
 Vue.component('Study', require('./components/Study.vue').default);
+Vue.component('Preloader', require('./components/Preloader.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

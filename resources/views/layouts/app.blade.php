@@ -17,23 +17,18 @@
 </head>
 <body>
     <div id="app">
-    <header class="border border-bottom">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <header class="header">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg">
                     <div class="navbar-nav">
                         <a class="nav-link" href="{{ route('study') }}">Онлайн обучение<span class="sr-only">(current)</span></a>
                         <a class="nav-link" href="{{ route('organization') }}">Организации</a>
                         <a class="nav-link" href="{{ route('school') }}">Школы</a>
                         <a class="nav-link" href="{{ route('budget') }}">Бюджет</a>
                     </div>
-                 </div>
-             </nav>
-        </div>
-     </header>
+                </nav>
+            </div>
+        </header>
 
         <main class="mt-4">
             @yield('content')

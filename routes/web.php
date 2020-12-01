@@ -25,6 +25,7 @@ Route::get('/test', [StudyController::class, 'test']);
 
 Route::get('study', [StudyController::class, 'index'])->name('study');
 Route::get('api/study/get', [StudyController::class, 'get']);
+Route::get('api/study/get/{name}', [StudyController::class, 'search']);
 Route::post('api/study/create', [StudyController::class, 'create']);
 Route::put('api/study/{id}', [StudyController::class, 'update']);
 Route::delete('api/study/{id}', [StudyController::class, 'delete']);
