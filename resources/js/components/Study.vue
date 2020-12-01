@@ -3,7 +3,7 @@
         <div>
             <h4>Количество классов в школах, подключенных к Системе электронного обучения E-learning</h4>
             <div class="d-flex justify-content-center mb-3">
-                <button class="btn btn-success">Добавить</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#study-add">Добавить</button>
             </div>
             <div>
                 <div class="input-group mb-3">
@@ -12,6 +12,9 @@
                         <button class="btn btn-primary" @click="searchStudiesData(city_name)">Найти</button>
                     </div>
                 </div>
+            </div>
+            <div class="border mb-3">
+                <h6 class="m-0 p-2">Количество записей: {{ cnt }}</h6>
             </div>
             <div v-for="(study, index) in studies" class="card p-3 mb-3">
                 <div><b>ID</b>: {{ study.id }}</div>
@@ -65,6 +68,46 @@
                 </div>
                 <!-- End Modal -->
             </div>
+
+            <!-- Modal for adding -->
+            <div>
+                <div class="modal fade" id="study-add" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Добавление данных</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group input-group-sm mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Количество</span>
+                                    </div>
+                                    <input type="number" class="form-control" v-model="count">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Город</span>
+                                    </div>
+                                    <input type="text" class="form-control" v-model="city">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Учебное заведение</span>
+                                    </div>
+                                    <input type="text" class="form-control" v-model="university">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" @click="addStudiesData">Добавить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Preloader -->
             <Preloader v-if="isLoading"></Preloader>
         </div>
@@ -83,7 +126,9 @@
                 university: null,
                 city: null,
 
-                city_name: ''
+                city_name: '',
+
+                cnt: null,
             }
         },
         mounted() {
@@ -107,6 +152,7 @@
             },
             setStudiesData(data) {
                 this.studies = data.studies;
+                this.cnt = data.cnt;
             },
 
             deleteStudyData(id, index) {
@@ -166,7 +212,29 @@
                      })
                      .finally(() => {
                          this.setIsLoading(false);
+                         this.city_name = '';
                      })
+            },
+
+            addStudiesData() {
+                this.setIsLoading(true);
+                axios.post('/api/study/create', {
+                    amt: this.count,
+                    region: this.city,
+                    school_name: this.university
+                }).then(response => {
+                    if(response.data.success) {
+                        this.setAddedStudiesData(response.data.studies);
+                    }
+                }).catch(error => {
+                    alert(error);
+                }).finally(() => {
+                    this.setIsLoading(false);
+                })
+            },
+            setAddedStudiesData(data) {
+                this.studies.push(data);
+                this.count = this.university = this.city = '';
             },
 
             setIsLoading(value) {

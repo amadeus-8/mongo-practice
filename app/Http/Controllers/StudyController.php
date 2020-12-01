@@ -30,7 +30,8 @@ class StudyController extends Controller
 
             return response()->json([
                 'success' => true,
-                'studies' => $studies
+                'studies' => $studies,
+                'cnt'     => Study::count()
             ]);
         }
         else
@@ -85,7 +86,32 @@ class StudyController extends Controller
 
     public function create(Request $request)
     {
+        $study = new Study();
+        $study['id'] = random_int(0, 1000);
+        $study['amt'] = $request->amt;
+        $study['region'] = $request->region;
+        $study['school name'] = $request->school_name;
 
+        if($study->save()) {
+            $studies = array(
+                'amt' => $request->amt,
+                'region' => $request->region,
+                'school_name' => $request->school_name
+            );
+
+            return response()->json([
+                'success' => true,
+                'studies' => $studies,
+                'message' => 'Данные успещно добавлены',
+                'code'    => 200,
+            ]);
+        }
+        else
+            return response()->json([
+                'success' => false,
+                'message' => 'Не удалось сохранить данные',
+                'code'    => 400
+            ]);
     }
 
     public function search(Request $request)
